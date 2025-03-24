@@ -1,0 +1,6 @@
+# Ignora file di build di MPLAB X IDE
+Max7665/Max7665.X/build/
+Max7665/Max7665.X/dist/
+Max7665/Max7665.X/*.elf
+Max7665/Max7665.X/*.map
+Max7665/Max7665.X/*.o
