@@ -1,22 +1,20 @@
 /*******************************************************************************
-  ADC Peripheral Library Interface Source File
+  UART1 PLIB
 
-  Company
+  Company:
     Microchip Technology Inc.
 
-  File Name
-    plib_adc.c
+  File Name:
+    plib_uart1.h
 
-  Summary
- * 
-    ADC peripheral library source.
+  Summary:
+    UART1 PLIB Header File
 
-  Description
-    This file implements the ADC peripheral library.
+  Description:
+    None
 
 *******************************************************************************/
 
-// DOM-IGNORE-BEGIN
 /*******************************************************************************
 * Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
 *
@@ -39,79 +37,70 @@
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *******************************************************************************/
-// DOM-IGNORE-END
+
+#ifndef PLIB_UART1_H
+#define PLIB_UART1_H
+
+#include <stddef.h>
+#include <stdbool.h>
+#include <stdint.h>
 #include "device.h"
-#include "plib_adc.h"
-#include "interrupts.h"
+#include "plib_uart_common.h"
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+
+    extern "C" {
+
+#endif
+// DOM-IGNORE-END
 
 // *****************************************************************************
 // *****************************************************************************
-// Section: ADC Implementation
+// Section: Interface
 // *****************************************************************************
 // *****************************************************************************
 
+#define UART1_FrequencyGet()    (uint32_t)(80000000UL)
 
-void ADC_Initialize(void)
-{
-    AD1CON1CLR = _AD1CON1_ON_MASK;
+/****************************** UART1 API *********************************/
 
-    AD1CON3 = 0x1f02;
-    AD1CHS = 0x30000;
+void UART1_Initialize( void );
 
+bool UART1_SerialSetup( UART_SERIAL_SETUP *setup, uint32_t srcClkFreq );
 
-    /* Turn ON ADC */
-    AD1CON1SET = _AD1CON1_ON_MASK;
-}
+bool UART1_AutoBaudQuery( void );
 
-void ADC_Enable(void)
-{
-    AD1CON1SET = _AD1CON1_ON_MASK;
-}
+void UART1_AutoBaudSet( bool enable );
 
-void ADC_Disable(void)
-{
-    AD1CON1CLR = _AD1CON1_ON_MASK;
-}
+bool UART1_Write( void *buffer, const size_t size );
 
-void ADC_SamplingStart(void)
-{
-    AD1CON1CLR = _AD1CON1_DONE_MASK;
-    AD1CON1SET = _AD1CON1_SAMP_MASK;
-}
+bool UART1_Read( void *buffer, const size_t size );
 
-void ADC_ConversionStart(void)
-{
-    AD1CON1CLR = _AD1CON1_SAMP_MASK;
-}
+UART_ERROR UART1_ErrorGet( void );
 
-void ADC_InputSelect(ADC_MUX muxType, ADC_INPUT_POSITIVE positiveInput, ADC_INPUT_NEGATIVE negativeInput)
-{
-    if (muxType == ADC_MUX_B)
-    {
-        AD1CHSbits.CH0SB = (uint8_t)positiveInput;
-        AD1CHSbits.CH0NB = (uint8_t)negativeInput;
+bool UART1_ReadIsBusy( void );
+
+size_t UART1_ReadCountGet( void );
+
+bool UART1_ReadAbort(void);
+
+bool UART1_WriteIsBusy( void );
+
+size_t UART1_WriteCountGet( void );
+
+void UART1_WriteCallbackRegister( UART_CALLBACK callback, uintptr_t context );
+
+void UART1_ReadCallbackRegister( UART_CALLBACK callback, uintptr_t context );
+
+bool UART1_TransmitComplete( void );
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+
     }
-    else
-    {
-        AD1CHSbits.CH0SA = (uint8_t)positiveInput;
-        AD1CHSbits.CH0NA = (uint8_t)negativeInput;
-    }
-}
 
-void ADC_InputScanSelect(ADC_INPUTS_SCAN scanInputs)
-{
-    AD1CSSL = (uint32_t)scanInputs;
-}
+#endif
+// DOM-IGNORE-END
 
-/*Check if conversion result is available */
-bool ADC_ResultIsReady(void)
-{
-    return (AD1CON1bits.DONE != 0U);
-}
-
-/* Read the conversion result */
-uint32_t ADC_ResultGet(ADC_RESULT_BUFFER bufferNumber)
-{
-    return (*((&ADC1BUF0) + ((uint32_t)bufferNumber << 2)));
-}
-
+#endif // PLIB_UART1_H
