@@ -34,36 +34,46 @@
 // *****************************************************************************
 // *****************************************************************************
 
+#define LED_RE3     (1 << 3)
+#define BUTTON_RE6  (1 << 6)
 
-
-// Definiamo maschere per leggibilità
-#define LED_RE3 (1 << 3)
-#define BUTTON_RE6 (1 << 6)
+void delay_ms(unsigned int ms) {
+    for (unsigned int i = 0; i < ms * 1000; i++) {
+        asm volatile("nop");  // istruzione vuota per rallentare (NON precisissima)
+    }
+}
 
 int main(void)
 {
-    SYS_Initialize(NULL);  // Inizializza periferiche e clock
+    SYS_Initialize(NULL);
 
-    TRISECLR = LED_RE3;    // Imposta RE3 come OUTPUT ? TRIS = 0
-    TRISESET = BUTTON_RE6; // Imposta RE6 come INPUT ? TRIS = 1
+    TRISECLR = LED_RE3;    // RE3 = output
+    TRISESET = BUTTON_RE6; // RE6 = input
 
-    LATESET = LED_RE3;     // All'inizio LED spento ? RE3 HIGH (sinking)
+    LATESET = LED_RE3;     // LED spento inizialmente
+
+    bool previous_state = 1;  // Tiene traccia del vecchio stato (rilasciato)
 
     while (1)
     {
-        if (!(PORTE & BUTTON_RE6))   // Se RE6 è LOW (pulsante premuto)
+        bool current = PORTE & BUTTON_RE6;  // legge stato RE6
+
+        if (previous_state && !current)  // transizione: HIGH ? LOW (premuto)
         {
-            LATECLR = LED_RE3;       // LED acceso (RE3 LOW)
+            delay_ms(30);  // debounce
+
+            if (!(PORTE & BUTTON_RE6))  // è ancora premuto?
+            {
+                LATEINV = LED_RE3;  // inverti stato LED
+            }
         }
-        else                         // Se RE6 è HIGH (pulsante rilasciato)
-        {
-            LATESET = LED_RE3;       // LED spento (RE3 HIGH)
-        }
+
+        previous_state = current;  // aggiorna stato per il prossimo ciclo
     }
 
     return 0;
 }
- 
+
 
 
 /*******************************************************************************
