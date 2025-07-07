@@ -29,6 +29,8 @@ Le comunicazioni sono unidirezionali (solo da Master verso Slave e Raspberry).
 
 - `/master`  ➔ contiene il codice MPLAB X per il PIC1 Master
 - `/slave`   ➔ contiene il codice MPLAB X per il PIC2 Slave
+- `/raspberry` ➔ contiene lo script Python `serial_logger.py` per ricezione dati su Raspberry Pi
+
 
 ## 🚀 Funzionamento previsto
 
@@ -36,6 +38,15 @@ Le comunicazioni sono unidirezionali (solo da Master verso Slave e Raspberry).
 - Al rilascio del pulsante viene trasmesso `'1'`
 - Il PIC2 riceve questi valori e accende il LED (con `'1'`) o lo spegne (con `'0'`)
 - Il Raspberry Pi collegato via USB e adattatore Waveshare visualizza su `minicom` oppure registra i dati via Python
+
+## 🐍 Script Python su Raspberry Pi
+
+Lo script `serial_logger.py` (presente nella cartella `/raspberry`) legge la porta seriale `/dev/ttyUSB0` e stampa su terminale i caratteri ricevuti:
+
+Esempio di output:
+Ricevuto: 1
+Ricevuto: 0
+Ricevuto: 1
 
 ## 🔧 Tool e configurazioni
 
