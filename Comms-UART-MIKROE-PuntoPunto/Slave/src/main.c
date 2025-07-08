@@ -35,32 +35,52 @@
 // *****************************************************************************
 
 
-void spegniTuttiLED(void) {
-    LATESET = 0x000F; // Spegne i LED (RE0-RE3)
+#include <xc.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include "definitions.h" // Include PLIB e configurazioni MCC
+
+#define SYS_CLK_FREQ 80000000  // 80 MHz clock di sistema
+#define DELAY_MS(ms) DelayMs(ms)
+
+void DelayMs(unsigned int msec)
+{
+    uint32_t tWait = (SYS_CLK_FREQ / 2000) * msec;
+    uint32_t tStart = _CP0_GET_COUNT();
+    while ((_CP0_GET_COUNT() - tStart) < tWait);
 }
 
-void accendiLED(void) {
-    LATECLR = (1 << 3); // Accende solo RE3
-}
+int main(void)
+{
+    SYS_Initialize(NULL); // Inizializzazione tramite MCC
 
-int main(void) {
-    SYS_Initialize(NULL);
-    spegniTuttiLED();
+    char comando;
+    char flush;
 
-    while (1) {
-        if (U5STA & _U5STA_URXDA_MASK) {
-            char comando = U5RXREG;
-            if (comando == 0)
-                accendiLED();
-            else
-                spegniTuttiLED();
+    // Svuota eventuali caratteri residui in RX
+    while (UART5_Read(&flush, 1)) { }
+
+    while (1)
+    {
+        if (UART5_Read(&comando, 1))
+        {
+            if (comando == '1')
+            {
+                // LED ON (in modalità sinking ? porta a 0)
+                LATECLR = (1 << 3);
+            }
+            else if (comando == '0')
+            {
+                // LED OFF (porta a 1)
+                LATESET = (1 << 3);
+            }
+
+            DELAY_MS(200); // debounce
         }
     }
 
-    return (EXIT_FAILURE);
+    return 0;
 }
-
-
 
 /*******************************************************************************
  End of File
