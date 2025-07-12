@@ -1,0 +1,50 @@
+import serial
+import struct
+import mariadb
+import time
+
+# Configura la porta seriale
+ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
+
+# Connessione a MariaDB
+try:
+    conn = mariadb.connect(
+        user="root",
+        password="TUA PASSWORD",
+        host="localhost",
+        database="bme280log"
+    )
+    cur = conn.cursor()
+except mariadb.Error as e:
+    print(f"❌ Errore MariaDB: {e}")
+    exit(1)
+
+print("🟢 In ascolto...")
+
+while True:
+    data = ser.read(34)
+
+    if len(data) == 34:
+        try:
+            press_raw = struct.unpack_from('<I', data, 0)[0] >> 4
+            temp_raw = struct.unpack_from('<I', data, 3)[0] >> 4
+            hum_raw = struct.unpack_from('<H', data, 6)[0]
+
+            # In questa versione semplificata usiamo valori placeholder
+            temperatura = 24.0
+            pressione = 1013.25
+            umidita = 56.0
+
+            # Salva nel database
+            cur.execute(
+                "INSERT INTO misure (temperatura, pressione, umidita) VALUES (?, ?, ?)",
+                (temperatura, pressione, umidita)
+            )
+            conn.commit()
+
+            # Stampa i valori letti
+            print(f"🌡️ Temp: {temperatura:.2f} °C  🧱 Press: {pressione:.2f} hPa  💧 Umidità: {umidita:.2f} %")
+            print("✅ Dati salvati su Internet!\n")
+
+        except Exception as e:
+            print(f"❌ Errore nel parsing o nel salvataggio: {e}")
