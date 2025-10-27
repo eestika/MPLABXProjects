@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/danie/MPLABXProjects/EmbeddedPortfolio/MultiBus/WiFiOnly/PIC1Master/src/bme280/bme280.c</file>
+            <file>file:/C:/Users/danie/MPLABXProjects/EmbeddedPortfolio/MultiBus/WiFiOnly/PIC1Master/src/bme280/bme280.h</file>
+            <file>file:/C:/Users/danie/MPLABXProjects/EmbeddedPortfolio/MultiBus/WiFiOnly/PIC1Master/src/wifi_at_tx/wifi_at_tx.c</file>
+            <file>file:/C:/Users/danie/MPLABXProjects/EmbeddedPortfolio/MultiBus/WiFiOnly/PIC1Master/src/input/input.c</file>
+            <file>file:/C:/Users/danie/MPLABXProjects/EmbeddedPortfolio/MultiBus/WiFiOnly/PIC1Master/src/utils/utils.c</file>
+            <file>file:/C:/Users/danie/MPLABXProjects/EmbeddedPortfolio/MultiBus/WiFiOnly/PIC1Master/src/wifi_at_tx/wifi_at_tx.h</file>
+            <file>file:/C:/Users/danie/MPLABXProjects/EmbeddedPortfolio/MultiBus/WiFiOnly/PIC1Master/src/parser/parser.c</file>
+            <file>file:/C:/Users/danie/MPLABXProjects/EmbeddedPortfolio/MultiBus/WiFiOnly/PIC1Master/src/main.c</file>
+        </group>
+    </open-files>
+</project-private>

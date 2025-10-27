@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>com.microchip.mplab.nbide.embedded.makeproject</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/make-project/1">
+            <name>Pic2Slave</name>
+            <creation-uuid>6cee826c-3813-491b-9d02-15aaba8a5df2</creation-uuid>
+            <make-project-type>0</make-project-type>
+            <sourceEncoding>ISO-8859-1</sourceEncoding>
+            <make-dep-projects/>
+            <sourceRootList>
+                <sourceRootElem>C:\Users\danie\MPLABXProjects\EmbeddedPortfolio\MultiBus\WiFiOnly\PIC2Slave\src\wifi_at_rx</sourceRootElem>
+                <sourceRootElem>C:\Users\danie\MPLABXProjects\EmbeddedPortfolio\MultiBus\WiFiOnly\PIC2Slave\utils</sourceRootElem>
+                <sourceRootElem>C:\Users\danie\MPLABXProjects\EmbeddedPortfolio\MultiBus\WiFiOnly\PIC2Slave\src\utils</sourceRootElem>
+                <sourceRootElem>C:\Users\danie\MPLABXProjects\EmbeddedPortfolio\MultiBus\WiFiOnly\PIC2Slave\src\logica</sourceRootElem>
+                <sourceRootElem>C:\Users\danie\MPLABXProjects\EmbeddedPortfolio\MultiBus\WiFiOnly\PIC2Slave\src\sensordata</sourceRootElem>
+            </sourceRootList>
+            <confList>
+                <confElem>
+                    <name>default</name>
+                    <type>2</type>
+                </confElem>
+            </confList>
+            <formatting>
+                <project-formatting-style>false</project-formatting-style>
+            </formatting>
+        </data>
+    </configuration>
+</project>
